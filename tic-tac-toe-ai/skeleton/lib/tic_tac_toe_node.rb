@@ -27,7 +27,7 @@ class TicTacToeNode
         pos = row, col
         if @board.empty?(pos)
           dup = @board.dup
-          dup[pos] = @current_mark 
+          dup[pos] = @next_mover_mark 
           @children << TicTacToeNode.new(dup, @current_mark, pos)
         end
       end
@@ -36,28 +36,35 @@ class TicTacToeNode
   end
 
   def losing_node?(eval)
-    #debugger
-      return false if @board.over? && @board.winner == eval
-      return true if @board.over? && @board.winner != eval
-    
-      
-  
-      if eval != self.current_mark
-        #debugger
-        if self.children.all? {|child| child.losing_node?(eval)}
-          return false
-        end
+    return false if @board.over? && (@board.winner == eval || @board.winner == nil)
+    return true if @board.over? && @board.winner != eval
+
+    if eval == self.next_mover_mark
+      if self.children.all? { |child| child.losing_node?(eval) }
         return true
-      else    
-        if self.children.any? {|child| child.losing_node?(eval)}
-          return true
-        end
-        #return false
+      elsif self.children.all? { |child| child.board.winner == nil } 
+        return false
       end
-        
+    else
+      self.children.any? { |child| child.losing_node?(eval) }
+    end
+
   end
 
   def winning_node?(eval)
 
   end
 end
+
+
+      # if eval != self.current_mark
+      #   if self.children.all? {|child| child.losing_node?(eval)}
+      #     return false
+      #   end
+      #   return true
+      # else    
+      #   if self.children.any? {|child| child.losing_node?(eval)}
+      #     return true
+      #   end
+      #   return false
+      # end   
