@@ -9,7 +9,7 @@ class Knight
     def initialize(pos) #accepts array
         @root_node = PolyTreeNode.new(pos) 
         @considered_positions = [pos] 
-        @move_tree = self.build_move_tree
+        self.build_move_tree
         
     end
 
@@ -40,17 +40,11 @@ class Knight
         moves
     end
 
-        ###start with root###
-        #check all valid positions
-        #add those as new nodes, update parents (def)/children (for parent)
-        #add those to considered positions
     def build_move_tree
         queue = []
-        tree = []
         queue << @root_node
         until queue.empty?
             node = queue.shift
-            tree << node
             moves = get_moves(node.value)
             moves.select! {|pos| val_pos?(pos)}
             moves.each do |move| 
@@ -60,17 +54,26 @@ class Knight
                 queue << move_node
             end
         end
-        tree
     end
 
     def find_path(end_pos)
         @root_node.bfs(end_pos)
     end
 
-    def trace_path_back
+    def trace_path_back(pos)
+        node = find_path(pos)
+        arr = [node.value]
+        until node.parent == nil
+            arr.unshift(node.parent.value)
+            node = node.parent
+        end
+        arr
+    end
+            
 end
 
 
 knight = Knight.new([0,0])
 
-p knight.find_path([4,6])
+p knight.trace_path_back([7, 6])
+p knight.trace_path_back([6,2])
