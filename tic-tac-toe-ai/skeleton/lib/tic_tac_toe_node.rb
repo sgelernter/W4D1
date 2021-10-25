@@ -48,7 +48,6 @@ class TicTacToeNode
     else
       self.children.any? { |child| child.losing_node?(eval) }
     end
-
   end
 
   def winning_node?(eval)
