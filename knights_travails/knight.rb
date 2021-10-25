@@ -62,9 +62,15 @@ class Knight
         end
         tree
     end
+
+    def find_path(end_pos)
+        @root_node.bfs(end_pos)
+    end
+
+    def trace_path_back
 end
 
 
 knight = Knight.new([0,0])
-p knight.root_node
-p knight.move_tree.count
+
+p knight.find_path([4,6])
