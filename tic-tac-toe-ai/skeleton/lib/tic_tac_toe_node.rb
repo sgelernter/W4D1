@@ -12,12 +12,6 @@ class TicTacToeNode
     @current_mark = @next_mover_mark == :x ? :o : :x 
   end
 
-  def losing_node?(evaluator)
-  end
-
-  def winning_node?(evaluator)
-  end
-
   # This method generates an array of all moves that can be made after
   # the current move.
   def children
@@ -57,7 +51,8 @@ class TicTacToeNode
     if eval == self.next_mover_mark
       return self.children.any? { |child| child.winning_node?(eval)}
     else 
-      self.children.all? { |child| child.winning_node?(eval) }
+      self.children.all? { |child| child.winning_node?(eval) } 
+
     end
 
   end
