@@ -51,19 +51,14 @@ class TicTacToeNode
   end
 
   def winning_node?(eval)
+    return true if @board.over? && (@board.winner == eval || @board.winner == nil)
+    return false if @board.over? && @board.winner != eval
+
+    if eval == self.next_mover_mark
+      return self.children.any? { |child| child.winning_node?(eval)}
+    else 
+      self.children.all? { |child| child.winning_node?(eval) }
+    end
 
   end
 end
-
-
-      # if eval != self.current_mark
-      #   if self.children.all? {|child| child.losing_node?(eval)}
-      #     return false
-      #   end
-      #   return true
-      # else    
-      #   if self.children.any? {|child| child.losing_node?(eval)}
-      #     return true
-      #   end
-      #   return false
-      # end   
